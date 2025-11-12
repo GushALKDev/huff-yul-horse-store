@@ -1,0 +1,39 @@
+// send calldata -> function dispatch -> function
+
+// 60008060093d393df3   ->   Contract Creation Bytecode
+// 5f3560e01c........   ->   Runtime Code
+// ......xxxxxxxxxxxx   ->   Metadata
+
+/* interfaces */
+#define function updateHorseNumber(uint256) nonpayable returns()
+#define function readNumberOfHorses() view returns(uint256)
+
+/* constants */
+#define constant NUMBER_OF_HORSES_STORAGE_SLOT = FREE_STORAGE_POINTER() // 0 at this point, but it could beset manually, i.e: 0x01
+
+#define macro MAIN() = takes(0) returns(0) {
+    0x00 calldataload 0xe0 shr          // [function_selector]
+    // updateHorseNumber (0xcdfead2e)
+    dup1 __FUNC_SIG(updateHorseNumber) eq updatejump jumpi  // -> [function_selector]
+    // readNumberOfHorses (0xe026c017)
+    __FUNC_SIG(readNumberOfHorses) eq readjump jumpi        // -> []
+    // Revert if no function selector matched
+    0x00 0x00 revert
+    // Jumps -> function data associated with the function selector
+    readjump:
+        READ_NUMBER_OF_HORSES()
+    updatejump:
+        UPDATE_HORSE_NUMBER()
+}
+
+#define macro READ_NUMBER_OF_HORSES() = takes(0) returns(0){
+    // Read the number of horses from storage
+    [NUMBER_OF_HORSES_STORAGE_SLOT] sload   // -> [storage_value]
+    0x00 mstore                             // -> [] // Memory: [value]
+    0x20 0x00 return                        // -> [] // RETURN 0x20 bytes (32 bytes) from memory offset 0x00
+}
+
+#define macro UPDATE_HORSE_NUMBER() = takes(0) returns(0){
+    // Update the horse number in storage
+    0x04 calldataload [NUMBER_OF_HORSES_STORAGE_SLOT] sstore stop
+}
