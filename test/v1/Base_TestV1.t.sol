@@ -1,15 +1,13 @@
 // SPDX-License-Identifier: GLP-3.0-only
 pragma solidity ^0.8.28;
 
-import {HorseStore} from "../../src/horseStoreV1/HorseStore.sol";
+import {IHorseStore} from "../../src/horseStoreV1/IHorseStore.sol";
 import "forge-std/Test.sol";
 
 abstract contract Base_TestV1 is Test {
-    HorseStore horseStore;
+    IHorseStore public horseStore;
 
-    function setUp() public virtual {
-        horseStore = new HorseStore();
-    }
+    function setUp() public virtual {}
 
     function testReadValue() public view {
         uint256 initialValue = horseStore.readNumberOfHorses();
