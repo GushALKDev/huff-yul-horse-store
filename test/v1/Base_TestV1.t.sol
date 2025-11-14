@@ -7,6 +7,8 @@ import "forge-std/Test.sol";
 abstract contract Base_TestV1 is Test {
     IHorseStore public horseStore;
 
+    bytes yulCode = '5f803560e01c8063cdfead2e1460245763e026c01714601b5780fd5b80602091548152f35b50602436106033576004359055005b80fd';
+
     function setUp() public virtual {}
 
     function testReadValue() public view {
