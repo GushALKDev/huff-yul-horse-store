@@ -70,10 +70,7 @@
         HORSE_HAPPY_IF_FED_WITHIN()
     totalSupply:
         TOTAL_SUPPLY()
-    // balanceOf:
-    //     BALANCE_OF()
-    // ownerOf:
-    //     OWNER_OF()                                                    // RETURN 32 bytes from memory offset 0x00
+
 
     // Huffmate ERC721 functions
     safe_mint:
@@ -165,7 +162,7 @@
     LOAD_ELEMENT_FROM_KEYS(0x00)            // -> [horseFedTimestamp]
     timestamp                               // -> [timestamp, horseFedTimestamp]
     sub                                     // -> [timeSinceLastFed]
-    [HORSE_HAPPY_IF_FED_WITHIN_CONST]             // -> [HORSE_HAPPY_IF_FED_WITHIN_CONST, timeSinceLastFed]
+    [HORSE_HAPPY_IF_FED_WITHIN_CONST]       // -> [HORSE_HAPPY_IF_FED_WITHIN_CONST, timeSinceLastFed]
     gt                                      // -> [isHorseHappy]
     0x00 mstore                             // -> []                // Memory [0x00: isHorseHappy]
     0x20 0x00 return
